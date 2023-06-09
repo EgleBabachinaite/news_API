@@ -14,9 +14,8 @@ app.config["MAIL_USE_SSL"]= True
 mail = Mail(app)
 
 api_key = open("api_key", "r").read()
-url = "https://newsapi.org/v2/everything?q=tesla&" \
-      "from=2023-05-08&sortBy=publishedAt&apiKey=" \
-      "ef4019274a94408b9a1284a04ccbbe41"
+url = "https://newsapi.org/v2/everything?q=tesla&from=2023-05-09&" \
+      "sortBy=publishedAt&apiKey="+api_key
 
 # ----------MAKE A REQUEST----------
 request = requests.get(url)
@@ -28,13 +27,16 @@ def get_Data():
     for article in content["articles"]:
         title = article["title"]
         description = article["description"]
-        full_text = f"{article['title']} \n {article['description']}"
+        url = article["url"]
+        full_text = f"{title} \n {description} \n {url}"
         return full_text
 data = get_Data()
 
+
 @app.route("/")
 def index():
-    msg = Message("Hey", sender="eglebabachinaite123@gmail.com",
+    msg = Message("All articles about TESLA from the last month",
+                  sender="eglebabachinaite123@gmail.com",
                   recipients= ["eglebabachinaite123@gmail.com"])
     msg.body = data
     # msg.body = str(content)

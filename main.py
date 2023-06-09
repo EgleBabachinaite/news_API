@@ -24,17 +24,20 @@ request = requests.get(url)
 content = request.json()
 
 # Accessing the article titles and its descriptions
-for article in content["articles"]:
-    # print(article["title"])
-    # print(article["description"])
-    titles = f"{article['title']}, {article['description']}"
-    # print(titles)
+def get_Data():
+    for article in content["articles"]:
+        title = article["title"]
+        description = article["description"]
+        full_text = f"{article['title']} \n {article['description']}"
+        return full_text
+data = get_Data()
 
 @app.route("/")
 def index():
     msg = Message("Hey", sender="eglebabachinaite123@gmail.com",
                   recipients= ["eglebabachinaite123@gmail.com"])
-    msg.body = str(content)
+    msg.body = data
+    # msg.body = str(content)
     mail.send(msg)
     return "Message sent"
 

@@ -14,8 +14,10 @@ app.config["MAIL_USE_SSL"]= True
 mail = Mail(app)
 
 api_key = open("api_key", "r").read()
-url = "https://newsapi.org/v2/everything?q=tesla&from" \
-      "=2023-05-12&sortBy=publishedAt&apiKey=" +api_key
+url = "https://newsapi.org/v2/everything?" \
+      "q=tesla&from" \
+      "=2023-05-12&sortBy=publishedAt&apiKey=" + api_key \
+      + "&language=en"
 
 # ----------MAKE A REQUEST----------
 request = requests.get(url)
@@ -25,7 +27,7 @@ content = request.json()
 # Accessing the article titles and its descriptions
 
 news = []
-for article in content["articles"]:
+for article in content["articles"][:20]:
     new = {
         "title": article["title"],
         "description": article["description"],
